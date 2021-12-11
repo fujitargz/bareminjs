@@ -1,0 +1,17 @@
+{
+  "name": "bareminjs",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "npm": "not allowed"
+  },
+  "scripts": {
+    "build": "honkit build",
+    "serve": "honkit serve"
+  },
+  "devDependencies": {
+    "gitbook-plugin-js-console": "^2.0.5",
+    "honkit": "^3.6.23"
+  },
+  "dependencies": {}
+}
