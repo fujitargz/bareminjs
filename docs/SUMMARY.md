@@ -1,4 +1,4 @@
 # Summary
 
-* [Introduction[WIP]](README.md)
+* [はじめに](README.md)
 
