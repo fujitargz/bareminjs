@@ -3,7 +3,7 @@
 <html lang="" >
     <head>
         <meta charset="UTF-8">
-        <title>プロトタイプメソッド [WIP] · HonKit</title>
+        <title>プロトタイプメソッド · HonKit</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="HonKit 3.6.23">
@@ -313,11 +313,43 @@
                 <a href="./">
             
                     
-                    プロトタイプメソッド [WIP]
+                    プロトタイプメソッド
             
                 </a>
             
 
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.10.1" data-path="./">
+            
+                <a href="./#arrayprop">
+            
+                    
+                    配列のプロトタイププロパティ
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.10.2" data-path="./">
+            
+                <a href="./#arraymethod">
+            
+                    
+                    配列のプロトタイプメソッド
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
             
         </li>
     
@@ -364,7 +396,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >プロトタイプメソッド [WIP]</a>
+        <a href=".." >プロトタイプメソッド</a>
     </h1>
 </div>
 
@@ -379,25 +411,85 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="プロトタイプメソッド-wip">プロトタイプメソッド [WIP]</h1>
+                                <h1 id="プロトタイプメソッド">プロトタイプメソッド</h1>
+<p>JavaScriptの配列には、予め定義されているメソッドやプロパティが存在します。
+それらのことを<strong>プロトタイプメソッド</strong>や<strong>プロトタイププロパティ</strong>と呼びます。</p>
+<p>プロトタイプメソッドやプロトタイププロパティは全ての配列に必ず定義されているので、
+<code>配列.プロトタイプメソッド(引数)</code>のように呼び出すことができます。</p>
+<h2 id="arrayprop">配列のプロトタイププロパティ </h2>
+<h3 id="arrayprototypelength"><code>Array.prototype.length</code></h3>
+<p>配列には<code>length</code>というプロトタイププロパティが存在します。
+<code>length</code>は文字通り配列の要素数（長さ）を表します。</p>
+<!-- js-console -->
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> ar = [<span class="hljs-string">&apos;first&apos;</span>, <span class="hljs-string">&apos;second&apos;</span>, <span class="hljs-string">&apos;third&apos;</span>];
+<span class="hljs-keyword">const</span> len = ar.length; <span class="hljs-comment">// 配列のlengthを取得</span>
+<span class="hljs-built_in">console</span>.log(len);
+</code></pre>
+<h2 id="arraymethod">配列のプロトタイプメソッド </h2>
+<h3 id="arrayprototypemap"><code>Array.prototype.map</code></h3>
+<p><code>map</code>は、引数に関数（コールバック関数と呼ばれます）を受け取ります。
+そして、受け取った関数を配列の各要素に順番に適用し、返り値を集めて新たな配列を作成し、その配列を<code>map</code>の返り値として返します。
+即ち、配列中の全ての値をコールバック関数で新たな配列にマッピングし、その配列を返すメソッドです。</p>
+<p>なお、コールバック関数を写像、配列を集合と考えると、像を返すメソッドと考えることもできます。</p>
+<h4 id="コールバック関数のシグネチャ">コールバック関数のシグネチャ</h4>
+<p><code>map</code>が配列のそれぞれの要素にコールバック関数を適用するとき、与えられる引数は以下のように決められています。</p>
 <ul>
-<li>プロトタイプメソッド<ul>
-<li><code>Array</code><ul>
-<li><code>Array.prototype.map</code></li>
-<li><code>Array.prototype.filter</code></li>
-<li><code>Array.prototype.length</code><ul>
-<li>メソッドではなくプロパティだが...</li>
+<li>第一引数は要素そのもの（の値）</li>
+<li>第二引数は要素の添え字</li>
+<li>第三引数は配列そのもの</li>
 </ul>
-</li>
-</ul>
-</li>
-<li><code>Object</code><ul>
-<li><code>Object.prototype.assign</code></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+<!-- js-console -->
+<pre><code class="lang-js"><span class="hljs-comment">// mapに渡すコールバック関数</span>
+<span class="hljs-keyword">const</span> callback = <span class="hljs-function">(<span class="hljs-params">element, index, array</span>) =&gt;</span> {
+  <span class="hljs-keyword">const</span> val = <span class="hljs-string">&apos;element: &apos;</span> + element;
+  <span class="hljs-keyword">const</span> ind = <span class="hljs-string">&apos;index: &apos;</span> + index;
+  <span class="hljs-keyword">const</span> ar = <span class="hljs-string">&apos;array: &apos;</span> + array;
+  <span class="hljs-keyword">return</span> val + <span class="hljs-string">&apos; &apos;</span> + ind + <span class="hljs-string">&apos; &apos;</span> + ar;
+}
+
+<span class="hljs-keyword">const</span> ar = [<span class="hljs-string">&apos;1st&apos;</span>, <span class="hljs-string">&apos;2nd&apos;</span>, <span class="hljs-string">&apos;3rd&apos;</span>];
+
+<span class="hljs-comment">// mapにコールバック関数を渡して呼び出し</span>
+<span class="hljs-keyword">const</span> res = ar.map(callback);
+
+<span class="hljs-built_in">console</span>.log(res);
+</code></pre>
+<p>実際の開発では、第三引数まで利用することは少ないです。</p>
+<!-- js-console -->
+<pre><code class="lang-js"><span class="hljs-comment">// 値の2倍を返す関数</span>
+<span class="hljs-comment">// 第一引数のみ利用する</span>
+<span class="hljs-keyword">const</span> double = <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> e * <span class="hljs-number">2</span>;
+
+<span class="hljs-keyword">const</span> array = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];
+
+<span class="hljs-keyword">const</span> doubled = array.map(double);
+
+<span class="hljs-built_in">console</span>.log(doubled);
+</code></pre>
+<p>また、上の例ではコールバック関数を予め宣言しましたが、多くの場合コールバック関数は使い捨てなので、
+都度宣言するよりも<code>map</code>の中でアロー関数を用いて書いてしまうことが多いです。</p>
+<!-- js-console -->
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> array = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>];
+
+<span class="hljs-keyword">const</span> doubled = array.map(<span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> e * <span class="hljs-number">2</span>);
+
+<span class="hljs-built_in">console</span>.log(doubled);
+</code></pre>
+<h3 id="arrayprototypefilter"><code>Array.prototype.filter</code></h3>
+<p><code>filter</code>も引数に関数（コールバック関数）を受け取ります。
+そして、配列の各要素にコールバック関数を適用し、返り値が<code>true</code>になる要素のみを集めて新たな配列を作成し、その配列を返します。
+即ち、コールバック関数を用いて配列をフィルタリングするメソッドです。</p>
+<p><code>filter</code>のコールバック関数も、第一引数に要素そのもの（の値）、第二引数に要素の添え字、第三引数に配列そのものを受け取ります。</p>
+<!-- js-console -->
+<pre><code class="lang-js"><span class="hljs-comment">// 値が20以上ならばtrue、そうでなければfalseを返す関数</span>
+<span class="hljs-keyword">const</span> isAdult = <span class="hljs-function"><span class="hljs-params">age</span> =&gt;</span> age &gt;= <span class="hljs-number">20</span>;
+
+<span class="hljs-keyword">const</span> people = [<span class="hljs-number">18</span>, <span class="hljs-number">22</span>, <span class="hljs-number">20</span>, <span class="hljs-number">14</span>, <span class="hljs-number">30</span>];
+
+<span class="hljs-keyword">const</span> adults = people.filter(isAdult);
+
+<span class="hljs-built_in">console</span>.log(adults);
+</code></pre>
 
                                 
                                 </section>
@@ -441,7 +533,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"プロトタイプメソッド [WIP]","level":"1.10","depth":1,"next":{"title":"発展：immutability [WIP]","level":"1.11","depth":1,"path":"immutability/README.md","ref":"immutability/README.md","articles":[]},"previous":{"title":"関数","level":"1.9","depth":1,"path":"function/README.md","ref":"function/README.md","articles":[{"title":"用語","level":"1.9.1","depth":2,"anchor":"#words","path":"function/README.md","ref":"function/README.md#words","articles":[]},{"title":"宣言","level":"1.9.2","depth":2,"anchor":"#declaration","path":"function/README.md","ref":"function/README.md#declaration","articles":[]},{"title":"関数と変数","level":"1.9.3","depth":2,"anchor":"#funcandvar","path":"function/README.md","ref":"function/README.md#funcandvar","articles":[]},{"title":"無名関数","level":"1.9.4","depth":2,"anchor":"#anonymous","path":"function/README.md","ref":"function/README.md#anonymous","articles":[]},{"title":"アロー関数","level":"1.9.5","depth":2,"anchor":"#arrow","path":"function/README.md","ref":"function/README.md#arrow","articles":[]}]},"dir":"ltr"},"config":{"plugins":["js-console"],"root":"./docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"js-console":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"gitbook":"*"},"file":{"path":"prototype/README.md","mtime":"2021-12-20T11:17:15.669Z","type":"markdown"},"gitbook":{"version":"3.6.23","time":"2021-12-20T11:17:22.565Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"プロトタイプメソッド","level":"1.10","depth":1,"next":{"title":"発展：immutability [WIP]","level":"1.11","depth":1,"path":"immutability/README.md","ref":"immutability/README.md","articles":[]},"previous":{"title":"関数","level":"1.9","depth":1,"path":"function/README.md","ref":"function/README.md","articles":[{"title":"用語","level":"1.9.1","depth":2,"anchor":"#words","path":"function/README.md","ref":"function/README.md#words","articles":[]},{"title":"宣言","level":"1.9.2","depth":2,"anchor":"#declaration","path":"function/README.md","ref":"function/README.md#declaration","articles":[]},{"title":"関数と変数","level":"1.9.3","depth":2,"anchor":"#funcandvar","path":"function/README.md","ref":"function/README.md#funcandvar","articles":[]},{"title":"無名関数","level":"1.9.4","depth":2,"anchor":"#anonymous","path":"function/README.md","ref":"function/README.md#anonymous","articles":[]},{"title":"アロー関数","level":"1.9.5","depth":2,"anchor":"#arrow","path":"function/README.md","ref":"function/README.md#arrow","articles":[]}]},"dir":"ltr"},"config":{"plugins":["js-console"],"root":"./docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"js-console":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"gitbook":"*"},"file":{"path":"prototype/README.md","mtime":"2021-12-24T06:42:33.613Z","type":"markdown"},"gitbook":{"version":"3.6.23","time":"2021-12-24T06:42:41.273Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
