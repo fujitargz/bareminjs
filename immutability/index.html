@@ -3,7 +3,7 @@
 <html lang="" >
     <head>
         <meta charset="UTF-8">
-        <title>発展：immutability [WIP] · HonKit</title>
+        <title>発展：immutability · HonKit</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="HonKit 3.6.23">
@@ -356,7 +356,7 @@
                 <a href="./">
             
                     
-                    発展：immutability [WIP]
+                    発展：immutability
             
                 </a>
             
@@ -394,7 +394,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >発展：immutability [WIP]</a>
+        <a href=".." >発展：immutability</a>
     </h1>
 </div>
 
@@ -409,15 +409,183 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="発展：immutability-wip">発展：immutability [WIP]</h1>
+                                <h1 id="発展：immutability">発展：immutability</h1>
+<p><ruby><rb>immutability</rb><rp>（</rp><rt>イミュータビリティー</rt><rp>）</rp></ruby>（不変性）は、関数型プログラミング由来の概念です。</p>
+<p>簡単にいうと、</p>
 <ul>
-<li>immutability<ul>
-<li>関数型プログラミングの概念</li>
-<li>データは書き換えない</li>
+<li>値（変数の中身）は書き換えないようにしましょう</li>
+<li>値（変数の中身）を変更したいなら新しい値（変数）をつくりましょう</li>
+<li>そうすればプログラムの品質が上がりますよ</li>
 </ul>
-</li>
-<li>例をいくつか</li>
-</ul>
+<p>という考え方です。</p>
+<p>例えば、氏名を表すオブジェクト<code>{ firstName: &apos;名前&apos;, lastName: &apos;苗字&apos; }</code>の配列から苗字だけを取り出して配列を作成するプログラムを考えてみましょう。
+次のプログラムは値を書き換えない（immutableな）方法で実装しています。</p>
+<!-- js-console -->
+<pre><code class="lang-js"><span class="hljs-comment">// immutable</span>
+<span class="hljs-keyword">const</span> names = [
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;一郎&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;鈴木&apos;</span>
+  },
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;次郎&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;佐藤&apos;</span>
+  },
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;花子&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;山田&apos;</span>
+  },
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;三郎&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;田中&apos;</span>
+  }
+];
+
+<span class="hljs-comment">// namesは書き換えずに</span>
+<span class="hljs-comment">// 新しい配列firstNamesを作っている</span>
+<span class="hljs-keyword">const</span> lastNames = names.map(<span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> e.lastName);
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;苗字: &apos;</span> + lastNames);
+</code></pre>
+<p>次に、同じプログラムを値を書き換える（mutableな）方法で実装してみます。</p>
+<!-- js-console -->
+<pre><code class="lang-js"><span class="hljs-comment">// mutable</span>
+<span class="hljs-keyword">let</span> names = [
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;一郎&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;鈴木&apos;</span>
+  },
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;次郎&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;佐藤&apos;</span>
+  },
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;花子&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;山田&apos;</span>
+  },
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;三郎&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;田中&apos;</span>
+  }
+];
+
+<span class="hljs-comment">// namesの内容を書き換え</span>
+names.forEach(<span class="hljs-function">(<span class="hljs-params">elem, ind, arr</span>) =&gt;</span> arr[ind] = elem.lastName);
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;苗字: &apos;</span> + names);
+</code></pre>
+<p>ここまでは大差ありませんね。</p>
+<p>では次に、苗字ではなく名前を取り出してみましょう。</p>
+<p>immutableな実装は次のようになります。</p>
+<!-- js-console -->
+<pre><code class="lang-js"><span class="hljs-comment">// immutable</span>
+<span class="hljs-keyword">const</span> names = [
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;一郎&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;鈴木&apos;</span>
+  },
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;次郎&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;佐藤&apos;</span>
+  },
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;花子&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;山田&apos;</span>
+  },
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;三郎&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;田中&apos;</span>
+  }
+];
+
+<span class="hljs-keyword">const</span> lastNames = names.map(<span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> e.lastName);
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;苗字: &apos;</span> + lastNames);
+
+<span class="hljs-comment">// ここから追記</span>
+<span class="hljs-comment">// immutableな実装をしていたのでnamesはそのまま保存されているので</span>
+<span class="hljs-comment">// 名前を取り出す処理を追加すればよい</span>
+<span class="hljs-keyword">const</span> firstNames = names.map(<span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> e.firstName);
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;名前: &apos;</span> + firstNames);
+</code></pre>
+<p>簡単に追加できました。</p>
+<p>では、mutableな実装ではどうでしょうか。</p>
+<!-- js-console -->
+<pre><code class="lang-js"><span class="hljs-comment">// mutable</span>
+<span class="hljs-keyword">let</span> names = [
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;一郎&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;鈴木&apos;</span>
+  },
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;次郎&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;佐藤&apos;</span>
+  },
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;花子&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;山田&apos;</span>
+  },
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;三郎&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;田中&apos;</span>
+  }
+];
+
+names.forEach(<span class="hljs-function">(<span class="hljs-params">elem, ind, arr</span>) =&gt;</span> arr[ind] = elem.lastName);
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;苗字: &apos;</span> + names);
+
+<span class="hljs-comment">// ここから追記</span>
+<span class="hljs-comment">// namesは苗字の配列に書き換えられているので、</span>
+<span class="hljs-comment">// 単純に処理を追加しようとすると...</span>
+
+names.forEach(<span class="hljs-function">(<span class="hljs-params">elem, ind, arr</span>) =&gt;</span> arr[ind] = elem.firstName);
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;名前: &apos;</span> + names);
+</code></pre>
+<p>はい、mutableに実装していたので、苗字を取り出した時点で名前が消えてしまっていました。
+では、苗字を取り出す前に名前を取り出せば良いのでしょうか？</p>
+<!-- js-console -->
+<pre><code class="lang-js"><span class="hljs-comment">// mutable</span>
+<span class="hljs-keyword">let</span> names = [
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;一郎&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;鈴木&apos;</span>
+  },
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;次郎&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;佐藤&apos;</span>
+  },
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;花子&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;山田&apos;</span>
+  },
+  {
+    <span class="hljs-attr">firstName</span>: <span class="hljs-string">&apos;三郎&apos;</span>,
+    <span class="hljs-attr">lastName</span>: <span class="hljs-string">&apos;田中&apos;</span>
+  }
+];
+
+<span class="hljs-comment">// 苗字の取得前に名前を取得すると...</span>
+names.forEach(<span class="hljs-function">(<span class="hljs-params">elem, ind, arr</span>) =&gt;</span> arr[ind] = elem.firstName);
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;名前: &apos;</span> + names);
+
+names.forEach(<span class="hljs-function">(<span class="hljs-params">elem, ind, arr</span>) =&gt;</span> arr[ind] = elem.lastName);
+
+<span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;苗字: &apos;</span> + names);
+</code></pre>
+<p>今度は名前を取り出した時点で苗字が消えてしまいました。</p>
+<p>このように、mutableな実装では、<strong>変数が宣言された後どこかで書き換えられる可能性</strong>を考慮する必要があります。
+また、値を書き換えると、<strong>書き換え前の値が利用できなくなってしまいます</strong>。</p>
+<p>一方、immutableな実装では変数が書き換えられることがないため、<strong>安全性</strong>が高まります。
+また、値を次々とコピーして（新しい値にして）いくため、<strong>値の再利用が容易</strong>です。</p>
+<p>ちなみに、配列のプロトタイプメソッドのうち、本書で紹介した<code>map</code>、<code>filter</code>は新しい配列を返すため、mutableな実装に最適です。
+このようなメソッドを<strong>非破壊的メソッド</strong>といいます（もとの配列を書き換えて破壊してしまうことがないため）。</p>
+<p>一方、<code>forEach</code>、<code>sort</code>などのメソッドはもとの配列を書き換えるため、mutableな実装になってしまいます。
+このようなメソッドは<strong>破壊的メソッド</strong>と呼ばれます。</p>
+<p>プロトタイプメソッドを調べる時は、破壊的なのか非破壊的なのかも確認するようにしましょう。</p>
 
                                 
                                 </section>
@@ -457,7 +625,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"発展：immutability [WIP]","level":"1.11","depth":1,"previous":{"title":"プロトタイプメソッド","level":"1.10","depth":1,"path":"prototype/README.md","ref":"prototype/README.md","articles":[{"title":"配列のプロトタイププロパティ","level":"1.10.1","depth":2,"anchor":"#arrayprop","path":"prototype/README.md","ref":"prototype/README.md#arrayprop","articles":[]},{"title":"配列のプロトタイプメソッド","level":"1.10.2","depth":2,"anchor":"#arraymethod","path":"prototype/README.md","ref":"prototype/README.md#arraymethod","articles":[]}]},"dir":"ltr"},"config":{"plugins":["js-console"],"root":"./docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"js-console":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"gitbook":"*"},"file":{"path":"immutability/README.md","mtime":"2021-12-24T06:42:33.613Z","type":"markdown"},"gitbook":{"version":"3.6.23","time":"2021-12-24T06:42:41.273Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"発展：immutability","level":"1.11","depth":1,"previous":{"title":"プロトタイプメソッド","level":"1.10","depth":1,"path":"prototype/README.md","ref":"prototype/README.md","articles":[{"title":"配列のプロトタイププロパティ","level":"1.10.1","depth":2,"anchor":"#arrayprop","path":"prototype/README.md","ref":"prototype/README.md#arrayprop","articles":[]},{"title":"配列のプロトタイプメソッド","level":"1.10.2","depth":2,"anchor":"#arraymethod","path":"prototype/README.md","ref":"prototype/README.md#arraymethod","articles":[]}]},"dir":"ltr"},"config":{"plugins":["js-console"],"root":"./docs","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"js-console":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56},"embedFonts":false},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"gitbook":"*"},"file":{"path":"immutability/README.md","mtime":"2021-12-24T11:35:11.394Z","type":"markdown"},"gitbook":{"version":"3.6.23","time":"2021-12-24T11:35:19.991Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
