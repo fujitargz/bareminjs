@@ -16,5 +16,7 @@
   * [関数と変数](function/README.md#funcandvar)
   * [無名関数](function/README.md#anonymous)
   * [アロー関数](function/README.md#arrow)
-* [プロトタイプメソッド [WIP]](prototype/README.md)
+* [プロトタイプメソッド](prototype/README.md)
+  * [配列のプロトタイププロパティ](prototype/README.md#arrayprop)
+  * [配列のプロトタイプメソッド](prototype/README.md#arraymethod)
 * [発展：immutability [WIP]](immutability/README.md)
