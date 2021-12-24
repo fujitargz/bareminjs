@@ -19,4 +19,4 @@
 * [プロトタイプメソッド](prototype/README.md)
   * [配列のプロトタイププロパティ](prototype/README.md#arrayprop)
   * [配列のプロトタイプメソッド](prototype/README.md#arraymethod)
-* [発展：immutability [WIP]](immutability/README.md)
+* [発展：immutability](immutability/README.md)
